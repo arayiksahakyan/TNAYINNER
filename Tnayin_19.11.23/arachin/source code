@@ -1,0 +1,8 @@
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall
+
+send_signal: send_signal.cpp
+	$(CXX) $(CXXFLAGS) -o tn tn.cpp
+
+print_message: print_message.cpp
+	$(CXX) $(CXXFLAGS) -o print_message print_message.cpp
