@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+#define SIZE 100
+
+int main() {
+    int shared_memory_id;
+    key_t custom_key = ftok("shmfile", 65);
+
+    shared_memory_id = shmget(custom_key, SIZE * sizeof(int), 0666);
+
+    int *custom_shared_memory = (int *)shmat(shared_memory_id, (void *)0, 0);
+
+    for (int i = 0; i < SIZE; ++i) {
+        custom_shared_memory[i] = i;
+    }
+
+    shmdt(custom_shared_memory);
+
+    return 0;
+}
