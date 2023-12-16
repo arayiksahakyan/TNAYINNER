@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+#define SIZE 100
+
+int main() {
+    int shm_id;
+    key_t custom_key = ftok("shmfile", 65);
+
+    shm_id = shmget(custom_key, SIZE * sizeof(int), 0666);
+
+    int *shared_mem = (int *)shmat(shm_id, (void *)0, 0);
+
+    int input_N;
+    printf("Enter the value to check correspondence: ");
+    scanf("%d", &input_N);
+
+    if (shared_mem[input_N] == input_N) {
+        printf("Match\n");
+    } else {
+        printf("No match\n");
+    }
+
+    shmdt(shared_mem);
+
+    return 0;
+}
+
