@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+int main() {
+    key_t custom_key = ftok("shmfile", 65);
+
+    int shared_memory_id = shmget(custom_key, 0, 0666);
+
+    shmctl(shared_memory_id, IPC_RMID, NULL);
+
+    return 0;
+}
